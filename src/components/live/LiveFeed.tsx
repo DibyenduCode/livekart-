@@ -11,6 +11,7 @@ import { ProductDetailsSheet } from '../products/ProductDetailsSheet';
 import type { Seller, Product, CartItem } from '../../types';
 import { getProductsBySellerId, mockProducts } from '../../data/products';
 import { Eye, Sparkles } from 'lucide-react';
+import { soundFx } from '../../utils/soundEffects';
 
 interface LiveFeedProps {
   sellers: Seller[];
@@ -270,13 +271,17 @@ export function LiveFeed({
                       onStreamErrorChange={onStreamErrorChange}
                     />
 
-                    {/* Top Bar: LIVE badge, Viewers & Top-Right Cart */}
+                    {/* Top Bar: LIVE badge, Viewers, Small Flow Button & Top-Right Cart */}
                     <TopBarOverlay
                       seller={seller}
                       cartCount={cartCount}
                       onOpenCart={() => setIsCartOpen(true)}
                       currentIndex={currentIndex}
                       totalSellers={totalSellers}
+                      onFlowNext={() => {
+                        soundFx.playTap();
+                        triggerSlideNext();
+                      }}
                     />
 
                     {/* Right-Side Action Bar: Like, Comment, Product Bag */}

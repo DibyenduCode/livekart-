@@ -1,4 +1,4 @@
-import { ShoppingCart, Radio, Eye } from 'lucide-react';
+import { ShoppingCart, Radio, Eye, Zap } from 'lucide-react';
 import type { Seller } from '../../types';
 
 interface TopBarOverlayProps {
@@ -7,6 +7,7 @@ interface TopBarOverlayProps {
   onOpenCart: () => void;
   currentIndex: number;
   totalSellers: number;
+  onFlowNext?: () => void;
 }
 
 export function TopBarOverlay({
@@ -14,7 +15,8 @@ export function TopBarOverlay({
   cartCount,
   onOpenCart,
   currentIndex,
-  totalSellers
+  totalSellers,
+  onFlowNext
 }: TopBarOverlayProps) {
   const formattedViewers =
     seller.viewerCount >= 1000
@@ -22,8 +24,8 @@ export function TopBarOverlay({
       : seller.viewerCount.toString();
 
   return (
-    <header className="absolute top-0 left-0 right-0 z-30 pt-3 px-3 flex items-center justify-between pointer-events-auto">
-      {/* Top Left: LIVE Badge + Viewer Count */}
+    <header className="absolute top-0 left-0 right-0 z-30 pt-3 px-3 flex items-center justify-between pointer-events-auto select-none">
+      {/* Top Left: LIVE Badge + Viewer Count + Small Flow Button */}
       <div className="flex items-center gap-2">
         {/* LIVE DEMO Pill */}
         <div className="flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-red-500/30 px-2.5 py-1 rounded-full shadow-lg">
@@ -44,6 +46,18 @@ export function TopBarOverlay({
           <Eye className="w-3.5 h-3.5 text-neutral-300" />
           <span>{formattedViewers}</span>
         </div>
+
+        {/* Small Live Flow Button */}
+        <button
+          onClick={onFlowNext}
+          id="live-flow-button"
+          aria-label="Flow to next live stream"
+          title="Flow to next live stream (⚡)"
+          className="flex items-center gap-1 bg-gradient-to-r from-amber-500/25 to-yellow-500/25 hover:from-amber-500/40 hover:to-yellow-500/40 active:scale-95 border border-amber-400/50 hover:border-amber-400/80 px-2.5 py-0.5 rounded-full text-[10px] text-amber-300 font-bold shadow-md transition-all cursor-pointer group"
+        >
+          <Zap className="w-2.5 h-2.5 text-amber-400 fill-amber-400 group-hover:scale-110 transition-transform animate-pulse" />
+          <span>Flow</span>
+        </button>
 
         {/* Seller Stream Position Indicator */}
         <div className="hidden sm:flex items-center gap-1 bg-black/40 backdrop-blur-md px-2 py-1 rounded-full text-[11px] text-white/70 font-medium">
